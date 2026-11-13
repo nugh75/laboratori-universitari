@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="description" content="Due laboratori universitari di intelligenza artificiale e progettazione educativa, con consegne e schede di lavoro.">
 <title>Laboratori universitari - Intelligenza artificiale e progettazione educativa</title>
-<link rel="stylesheet" href="style.css?v=3">
-<script src="guida.js?v=3" defer></script>
+<link rel="stylesheet" href="style.css?v=4">
+<script src="guida.js?v=4" defer></script>
 </head>
 <body>
 <a class="skip" href="#contenuto">Vai al contenuto</a>
@@ -15,6 +15,10 @@
 <nav aria-label="Navigazione principale"><a href="#laboratori">Laboratori</a><a href="#materiali">Materiali</a><a href="#consegna">Consegna</a></nav>
 </div></header>
 <main id="contenuto">
+  <div class="wrap reset-notice" id="reset-notice" hidden>
+    <p>Puoi recuperare i progressi precedenti su questo browser.</p>
+    <button class="guide-secondary" type="button" id="undo-reset">Recupera i progressi</button>
+  </div>
 <section class="hero" id="inizio">
 <div class="wrap hero-grid">
   <div class="hero-copy">
@@ -125,6 +129,6 @@
 <div class="notes"><h3>Feedback formativo</h3><p>Il feedback è esclusivamente formativo e non incide sul voto finale universitario.</p><h3>Uso dell’IA</h3><p>Se usate uno strumento di IA, lavorate con casi fittizi o anonimizzati. Nel progetto indicate brevemente come lo avete usato e quali proposte avete modificato o scartato.</p></div>
 </div></section>
 </main>
-<footer class="wrap foot"><span>Laboratori universitari</span><a href="#inizio">Torna all’inizio ↑</a></footer>
+<footer class="wrap foot"><span>Laboratori universitari</span><a href="#inizio">Torna all’inizio ↑</a><button class="guide-reset-link" type="button" id="reset-progress" hidden>Ricomincia da capo</button></footer>
 </body>
 </html>

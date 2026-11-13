@@ -5,10 +5,10 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="description" content="Guida passo passo ai laboratori universitari con Mistral Work e Notion.">
   <title>Guida al laboratorio · Laboratori universitari</title>
-  <link rel="stylesheet" href="style.css?v=3">
+  <link rel="stylesheet" href="style.css?v=4">
   <script src="prompt-laboratori.js" defer></script>
   <script src="passaggi.js" defer></script>
-  <script src="guida.js?v=3" defer></script>
+  <script src="guida.js?v=4" defer></script>
 </head>
 <body>
   <a class="skip" href="#contenuto">Vai al contenuto</a>
@@ -22,6 +22,10 @@
     </div>
   </header>
   <main id="contenuto" class="wrap guide" data-guide>
+  <div class="wrap reset-notice" id="reset-notice" hidden>
+    <p>Puoi recuperare i progressi precedenti su questo browser.</p>
+    <button class="guide-secondary" type="button" id="undo-reset">Recupera i progressi</button>
+  </div>
     <noscript><p>Per usare la guida interattiva, attiva JavaScript. Le schede sono disponibili nella <a href="./#materiali">pagina dei materiali</a>.</p></noscript>
     <div class="guide-intro">
       <p class="guide-kicker">Guida passo passo</p>
@@ -63,6 +67,6 @@
       </div>
     </div>
   </main>
-  <footer class="wrap foot"><span>Laboratori universitari</span><a href="./">Torna alla pagina iniziale</a></footer>
+  <footer class="wrap foot"><span>Laboratori universitari</span><a href="./">Torna alla pagina iniziale</a><button class="guide-reset-link" type="button" id="reset-progress" hidden>Ricomincia da capo</button></footer>
 </body>
 </html>

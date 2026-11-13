@@ -1,4 +1,91 @@
-const storagePrefix = "laboratori-universitari";
+const baseStoragePrefix = "laboratori-universitari";
+const progressSessionKey = `${baseStoragePrefix}/sessione`;
+
+function readProgressSession() {
+  try {
+    return JSON.parse(localStorage.getItem(progressSessionKey)) ?? { active: "" };
+  } catch {
+    return { active: "" };
+  }
+}
+
+function progressPrefix(sessionId) {
+  return sessionId ? `${baseStoragePrefix}/sessioni/${sessionId}` : baseStoragePrefix;
+}
+
+const progressSession = readProgressSession();
+const storagePrefix = progressPrefix(progressSession.active);
+
+function progressKeys(sessionId) {
+  const prefix = progressPrefix(sessionId);
+  const groups = [`${prefix}/guida/`, `${prefix}/checklist-`, `${prefix}/prompt/`];
+  return Object.keys(localStorage).filter((key) => groups.some((group) => key.startsWith(group)));
+}
+
+function updateResetControls() {
+  const notice = document.getElementById("reset-notice");
+  notice.hidden = progressSession.previous === undefined;
+  try {
+    document.getElementById("reset-progress").hidden = progressKeys(progressSession.active).length === 0;
+  } catch {
+    document.getElementById("reset-progress").hidden = true;
+  }
+}
+
+function confirmProgressChange(recover) {
+  const dialog = document.createElement("dialog");
+  dialog.className = "guide-reset-dialog";
+  dialog.setAttribute("aria-labelledby", "reset-dialog-title");
+  dialog.setAttribute("aria-describedby", "reset-dialog-description");
+  const form = document.createElement("form");
+  form.method = "dialog";
+  dialog.append(form);
+  const title = addText(form, "h2", recover ? "Recuperare i progressi?" : "Ricominciare da capo?");
+  title.id = "reset-dialog-title";
+  const description = addText(form, "p", recover
+    ? "Il recupero ripristina nome del gruppo, passaggi, spunte e prompt dei due laboratori. Sostituisce gli eventuali progressi fatti dopo il reset."
+    : "Verranno azzerati nome del gruppo, passaggi, spunte e prompt modificati di entrambi i laboratori in questo browser. Potrai recuperare i progressi dopo il reset.");
+  description.id = "reset-dialog-description";
+  const error = addText(form, "p", "");
+  error.setAttribute("role", "alert");
+  const controls = document.createElement("div");
+  controls.className = "guide-reset-actions";
+  form.append(controls);
+  const cancel = addText(controls, "button", "Annulla");
+  cancel.value = "cancel";
+  cancel.autofocus = true;
+  cancel.className = "guide-secondary";
+  const confirm = addText(controls, "button", recover ? "Recupera i progressi" : "Azzera entrambi i percorsi");
+  confirm.type = "button";
+  confirm.className = recover ? "button" : "button guide-reset-confirm";
+
+  confirm.addEventListener("click", () => {
+    const nextSession = recover
+      ? { active: progressSession.previous }
+      : { active: crypto.randomUUID(), previous: progressSession.active };
+    try {
+      localStorage.setItem(progressSessionKey, JSON.stringify(nextSession));
+    } catch {
+      error.textContent = "Il browser non ha potuto aggiornare i progressi. Riprova.";
+      return;
+    }
+    const expired = recover ? progressSession.active : progressSession.previous;
+    if (expired !== undefined) {
+      for (const key of progressKeys(expired)) localStorage.removeItem(key);
+    }
+    location.reload();
+  });
+  dialog.addEventListener("close", () => dialog.remove());
+  document.body.append(dialog);
+  dialog.showModal();
+}
+
+document.getElementById("reset-progress").addEventListener("click", () => confirmProgressChange(false));
+document.getElementById("undo-reset").addEventListener("click", () => confirmProgressChange(true));
+
+window.addEventListener("storage", (event) => {
+  if (event.key === progressSessionKey) location.reload();
+});
 
 function leggiPercorso(laboratorio) {
   try {
@@ -9,7 +96,12 @@ function leggiPercorso(laboratorio) {
   }
 }
 
-window.addEventListener("pageshow", () => {
+window.addEventListener("pageshow", (event) => {
+  if (event.persisted && readProgressSession().active !== progressSession.active) {
+    location.reload();
+    return;
+  }
+  updateResetControls();
   for (const link of document.querySelectorAll(".guide-link")) {
     const hasProgress = Boolean(leggiPercorso(link.dataset.laboratory));
     const resume = link.querySelector("[data-resume]");
@@ -93,6 +185,7 @@ function avviaGuida(laboratorio) {
     state.groupName = name;
     steps = creaPassaggi(laboratorio, name);
     savePath();
+    updateResetControls();
     form.hidden = true;
     workspace.hidden = false;
     render();

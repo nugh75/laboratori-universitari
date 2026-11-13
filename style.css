@@ -158,3 +158,15 @@ button.button{border:0;cursor:pointer}
 @media(max-width:690px){
   .hero-labs{display:grid;grid-template-columns:1fr}
 }
+
+.foot{flex-wrap:wrap}
+.guide-reset-link{border:0;padding:.35rem 0;background:transparent;color:inherit;text-decoration:underline;cursor:pointer}
+.reset-notice{display:flex;align-items:center;flex-wrap:wrap;gap:.55rem 1rem;margin-block:1rem;padding:.65rem .85rem;border:1px solid var(--line);background:var(--pale)}
+.guide>.reset-notice{width:100%}
+.reset-notice p{margin:0}
+.guide-reset-dialog{width:min(32rem,calc(100% - 2rem));padding:1.4rem;border:1px solid var(--line);border-radius:.35rem;background:var(--paper);color:var(--ink)}
+.guide-reset-dialog::backdrop{background:rgb(0 0 0 / .55)}
+.guide-reset-dialog h2{font-size:1.65rem}
+.guide-reset-actions{display:flex;flex-wrap:wrap;gap:.6rem}
+button.guide-reset-confirm{background:#8c3224}
+button.guide-reset-confirm:hover{background:#69251b}
