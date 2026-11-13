@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Guida passo passo ai laboratori universitari con Mistral Work e Notion.">
+  <title>Guida al laboratorio · Laboratori universitari</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="prompt-laboratori.js" defer></script>
+  <script src="passaggi.js" defer></script>
+  <script src="guida.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#contenuto">Vai al contenuto</a>
+  <header class="top">
+    <div class="wrap nav">
+      <a class="brand" href="./"><span class="mark" aria-hidden="true">✳</span> Laboratori universitari</a>
+      <nav aria-label="Navigazione principale">
+        <a href="./#laboratori">Laboratori</a>
+        <a href="./#materiali">Materiali</a>
+      </nav>
+    </div>
+  </header>
+  <main id="contenuto" class="wrap guide" data-guide>
+    <noscript><p>Per usare la guida interattiva, attiva JavaScript. Le schede sono disponibili nella <a href="./#materiali">pagina dei materiali</a>.</p></noscript>
+    <div class="guide-intro">
+      <p class="guide-kicker">Guida passo passo</p>
+      <h1 id="guide-title">Scegli un laboratorio</h1>
+      <div id="guide-choice">
+        <a class="button" href="?laboratorio=conflitti">Gestione dei gruppi e dei conflitti</a>
+        <a class="button" href="?laboratorio=competenze">Competenze in azione</a>
+      </div>
+    </div>
+    <form class="guide-card group-form" id="group-form" hidden>
+      <h2>Il vostro gruppo</h2>
+      <p>Formate un gruppo di massimo quattro persone. Se avete già un gruppo, potete mantenerlo. Scegliete un nome per il gruppo.</p>
+      <label for="group-name">Nome del gruppo</label>
+      <input id="group-name" name="groupName" type="text" maxlength="60" placeholder="Es. Gruppo Aurora" required>
+      <button class="button" type="submit" id="save-group">Inizia il percorso</button>
+      <p class="guide-note">Il nome, il passaggio, le spunte e le modifiche ai prompt si salvano in questo browser.</p>
+    </form>
+    <p class="guide-storage" role="status" id="guide-storage" hidden></p>
+
+    <div id="guide-workspace" hidden>
+      <div class="group-strip">
+        <div><strong id="active-group"></strong><p class="guide-note" id="check-progress"></p></div>
+        <button class="guide-secondary" type="button" id="edit-group">Modifica il nome</button>
+      </div>
+      <div class="guide-layout">
+        <details class="guide-nav" id="guide-nav" open>
+          <summary>Passaggi della guida</summary>
+          <nav aria-label="Passaggi della guida"><ol id="step-list"></ol></nav>
+        </details>
+        <section class="guide-card" aria-labelledby="step-title">
+          <p class="guide-kicker" id="step-meta"></p>
+          <h2 id="step-title" tabindex="-1"></h2>
+          <div id="step-content"></div>
+          <div class="guide-controls">
+            <button class="guide-secondary" type="button" id="step-back">Indietro</button>
+            <button class="button" type="button" id="step-next">Avanti</button>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+  <footer class="wrap foot"><span>Laboratori universitari</span><a href="./">Torna alla pagina iniziale</a></footer>
+</body>
+</html>
