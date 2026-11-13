@@ -11,9 +11,10 @@ function leggiPercorso(laboratorio) {
 
 window.addEventListener("pageshow", () => {
   for (const link of document.querySelectorAll(".guide-link")) {
-    link.textContent = leggiPercorso(link.dataset.laboratory)
-      ? "Riprendi il laboratorio"
-      : "Avvia il laboratorio";
+    const hasProgress = Boolean(leggiPercorso(link.dataset.laboratory));
+    const resume = link.querySelector("[data-resume]");
+    if (resume) resume.hidden = !hasProgress;
+    else link.textContent = hasProgress ? "Riprendi il laboratorio" : "Avvia il laboratorio";
   }
 });
 
@@ -177,9 +178,6 @@ function avviaGuida(laboratorio) {
       panel.append(links);
     }
     if (step.note) addText(panel, "p", step.note).className = "guide-note";
-    if (step.instructions) renderCopyBlock(...step.instructions, "Copia istruzioni");
-    if (step.template) renderCopyBlock(...step.template, "Copia modello");
-    if (step.prompt) renderCopyBlock(...step.prompt, "Copia prompt", step.id);
 
     const fieldset = document.createElement("fieldset");
     fieldset.className = "checklist";
@@ -204,17 +202,32 @@ function avviaGuida(laboratorio) {
       fieldset.append(label);
     }
     panel.append(fieldset);
+
+    if (step.instructions) renderCopyBlock(...step.instructions, "Copia istruzioni");
+    if (step.template) renderCopyBlock(...step.template, "Copia modello");
+    if (step.prompt) renderCopyBlock(...step.prompt, "Copia prompt", step.id);
   }
 
   function renderCopyBlock(label, original, buttonLabel, promptId) {
     const section = document.createElement("div");
     section.className = "guide-prompt";
     const title = addText(section, "h3", label);
+    const toolbar = document.createElement("div");
+    toolbar.className = "guide-copy-actions";
+    section.append(toolbar);
+    const disclosure = document.createElement("details");
+    disclosure.className = "guide-copy-details";
+    const toggle = addText(disclosure, "summary", promptId ? "Mostra e modifica il testo" : "Mostra il testo");
+    disclosure.addEventListener("toggle", () => {
+      toggle.textContent = disclosure.open ? "Nascondi il testo"
+        : promptId ? "Mostra e modifica il testo" : "Mostra il testo";
+    });
+    section.append(disclosure);
     let content;
 
     if (promptId) {
       title.id = "prompt-label";
-      const note = addText(section, "p", "Questa è una traccia. Potete modificarla o sostituirla prima di copiarla in Mistral.");
+      const note = addText(disclosure, "p", "Questa è una traccia. Potete modificarla o sostituirla prima di copiarla in Mistral.");
       note.className = "guide-note prompt-hint";
       note.id = "prompt-hint";
       content = document.createElement("textarea");
@@ -236,15 +249,15 @@ function avviaGuida(laboratorio) {
           showStorageMessage();
         }
       });
-      section.append(content);
+      disclosure.append(content);
     } else {
-      content = addText(section, "blockquote", original);
+      content = addText(disclosure, "blockquote", original);
     }
 
-    const copy = addText(section, "button", buttonLabel);
+    const copy = addText(toolbar, "button", buttonLabel);
     copy.type = "button";
     copy.className = "guide-secondary";
-    const status = addText(section, "span", "");
+    const status = addText(toolbar, "span", "");
     status.className = "guide-note";
     status.setAttribute("role", "status");
     copy.addEventListener("click", async () => {
@@ -253,6 +266,7 @@ function avviaGuida(laboratorio) {
         await navigator.clipboard.writeText(value);
         status.textContent = "Testo copiato.";
       } catch {
+        disclosure.open = true;
         if (promptId) {
           content.focus();
           content.select();

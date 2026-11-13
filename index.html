@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="description" content="Due laboratori universitari di intelligenza artificiale e progettazione educativa, con consegne e schede di lavoro.">
 <title>Laboratori universitari - Intelligenza artificiale e progettazione educativa</title>
-<link rel="stylesheet" href="style.css?v=2">
-<script src="guida.js" defer></script>
+<link rel="stylesheet" href="style.css?v=3">
+<script src="guida.js?v=3" defer></script>
 </head>
 <body>
 <a class="skip" href="#contenuto">Vai al contenuto</a>
@@ -20,7 +20,14 @@
   <div class="hero-copy">
     <h1>Intelligenza artificiale e <em>progettazione educativa</em></h1>
     <p>Due laboratori per progettare un intervento sui conflitti o un’attività sulle competenze, con Mistral Work e una wiki in Notion.</p>
-    <a class="button" href="#laboratori">Esplora i laboratori <span aria-hidden="true">↓</span></a>
+    <nav class="hero-labs" aria-label="Scegli il laboratorio">
+      <a class="button guide-link" data-laboratory="conflitti" href="guida.html?laboratorio=conflitti">
+        <span>Gestione dei gruppi e dei conflitti</span><span class="resume-badge" data-resume hidden>Riprendi</span>
+      </a>
+      <a class="button guide-link" data-laboratory="competenze" href="guida.html?laboratorio=competenze">
+        <span>Competenze in azione</span><span class="resume-badge" data-resume hidden>Riprendi</span>
+      </a>
+    </nav>
     <aside class="brief" aria-label="Modalità di lavoro">
       <dl>
         <div><dt>Durata</dt><dd>2 ore</dd></div>
@@ -105,7 +112,6 @@
 </div></article>
 <div class="lesson-body shared-materials" id="materiali">
 <h3>Materiali su Google Drive</h3>
-<p>Le schede e le slide riportano la composizione dei gruppi della versione precedente. Per questo laboratorio, formate nuovi gruppi di massimo quattro persone. I gruppi già costituiti possono restare come sono. Per i ruoli e la configurazione di Mistral, seguite la guida passo passo.</p>
 <ul>
 <li><a href="https://drive.google.com/drive/folders/1qXZmGoPxxVZhyKSsWecdENP8j7rJxAKq">Cartella dei materiali</a></li>
 <li><a href="https://docs.google.com/document/d/1kNKMfu2lY-GcEzN4beY8Awf38m9D3AuN/edit">Capitolo 3 · Apprendere ad apprendere</a></li>

@@ -144,3 +144,17 @@ button.button{border:0;cursor:pointer}
 @media(max-width:360px){
   .site-access{grid-template-columns:minmax(76px,96px) minmax(0,1fr);padding:.65rem}
 }
+
+.hero-labs{display:flex;flex-wrap:wrap;gap:.55rem}
+.hero-labs .guide-link{min-width:0;margin:0;justify-content:space-between;text-decoration:none}
+.resume-badge{flex:none;padding:.12rem .4rem;border-radius:.2rem;background:var(--pale);color:var(--green);font-size:.8rem}
+.guide-card .checklist{margin-top:.9rem}
+.guide-copy-actions{display:flex;flex-wrap:wrap;align-items:center;gap:.45rem;margin-top:.55rem}
+.guide-copy-actions .guide-note{margin:0}
+.guide-copy-details{margin-top:.55rem;padding-top:.55rem}
+.guide-copy-details summary{min-height:36px;align-content:center}
+.guide-prompt blockquote{margin:.45rem 0 0}
+.guide-prompt textarea{margin-bottom:0}
+@media(max-width:690px){
+  .hero-labs{display:grid;grid-template-columns:1fr}
+}
